@@ -8,8 +8,6 @@ import javax.ws.rs.core.Context;
 @Path("/b")
 public interface FileEchoServiceRest {
 
-	/**
-	*/
 	@POST
 	@Path("/d")
 	public void receiveBytes(@Context HttpServletRequest request);
