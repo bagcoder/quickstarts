@@ -1,15 +1,15 @@
 package org.switchyard.quickstarts.http.binding;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Context;
 
-import org.apache.commons.io.IOUtils;
 import org.switchyard.component.bean.Service;
 
 @Service(FileEchoService.class)
@@ -36,19 +36,18 @@ public class FileEchoServiceBean implements FileEchoService {
 		}
 	}
 	
-	public void receiveBytesIS(InputStream is) {
+	public void receiveBytesIS(InputStream is) throws IOException {
 		System.out.println("receiveBytes(InputStream is)");
-		
-		StringWriter writer = new StringWriter();
-		try {
-			IOUtils.copy(is, writer);
-			String inputData = writer.toString();
-			System.out.println("inpuptData:" + inputData);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-	
 
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder out = new StringBuilder();
+		String line;
+		while ((line = reader.readLine()) != null) {
+			out.append(line);
+		}
+		System.out.println("data:" + out.toString()); 
+		reader.close();
+
+	}	
 
 }
